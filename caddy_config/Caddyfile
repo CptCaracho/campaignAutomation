@@ -1,0 +1,11 @@
+n8n.${DOMAIN_NAME} {
+    reverse_proxy n8n:5678 {
+      flush_interval -1
+    }
+}
+
+appsmith.${DOMAIN_NAME} {
+    reverse_proxy appsmith {
+      flush_interval -1
+    }
+}
