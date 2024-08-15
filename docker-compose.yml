@@ -6,6 +6,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
     volumes:
       - caddy_data:/data
       - ${DATA_FOLDER}/caddy_config:/config
@@ -18,11 +20,11 @@ services:
     ports:
       - 5678:5678
     environment:
-      - N8N_HOST=${SUBDOMAIN}.${DOMAIN_NAME}
+      - N8N_HOST=n8n.${DOMAIN_NAME}
       - N8N_PORT=5678
       - N8N_PROTOCOL=https
       - NODE_ENV=production
-      - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
+      - WEBHOOK_URL=https://n8n.${DOMAIN_NAME}/
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
     volumes:
       - n8n_data:/home/node/.n8n
@@ -35,8 +37,8 @@ services:
     ports:
       - 27017:27017
     environment:
-      - MONGODB_INITDB_ROOT_USERNAME=user
-      - MONGODB_INITDB_ROOT_PASSWORD=pass
+      - MONGODB_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGODB_INITDB_ROOT_PASSWORD=${MONGO_PASS}
     volumes:
       - mongodb_data:/data/db
 
@@ -64,7 +66,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: windmill
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
