@@ -1,11 +1,5 @@
 #!/bin/bash
 
-apt update && apt upgrade -y
-
-apt install fish kitty
-
-echo -e "\n\nexec fish" >> ~/.bashrc
-
 docker volume create caddy_data
 docker volume create n8n_data
 docker volume create mongodb_data
